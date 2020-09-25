@@ -1,0 +1,3 @@
+[submodule "ss/testSubmodules"]
+	path = ss/testSubmodules
+	url = https://github.com/igorurr/testSubmodules.git
