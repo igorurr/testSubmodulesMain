@@ -1,0 +1,9 @@
+{
+  "name": "y",
+  "scripts": {
+    "test": "y"
+  },
+  "dependencies": {
+    "splitargs": "0.0.7"
+  }
+}
