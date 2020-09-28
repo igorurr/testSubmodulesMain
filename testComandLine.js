@@ -1,4 +1,7 @@
-const { spawnSync } = require('child_process');
-let child  = spawnSync('npm.cmd', ['git status']);
+const { sysCall } = require('./helpers');
 
-console.log('sdf', child)
+const gitStatusResponse = sysCall('git status --porcelain').stdout
+
+const gitStatusLines = gitStatusResponse.split('\n').length
+
+console.log('sdf', gitStatusLines)
