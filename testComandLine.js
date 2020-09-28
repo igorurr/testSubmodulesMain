@@ -2,6 +2,10 @@ const { sysCall } = require('./helpers');
 
 const gitStatusResponse = sysCall('git status --porcelain').stdout
 
-const gitStatusLines = gitStatusResponse.split('\n').length
+const wasChanges = gitStatusResponse.split('\n').length > 1
 
-console.log('sdf', gitStatusLines)
+if (wasChanges) {
+  process.exit(1)
+}
+
+console.log('asasas', wasChanges, gitStatusResponse.split('\n'))
