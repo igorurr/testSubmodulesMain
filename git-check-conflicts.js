@@ -2,6 +2,12 @@ const { checkConflicts, sysCall, getComandLineArgs, consoleLog, sysCallOut } = r
 
 const brunchName = getComandLineArgs()[0]
 
-sysCallOut('git status --porcelain')
+sysCall(`git merge ${brunchName} --no-commit`)
 
-process.exit(1)
+const hasUnmerged = sysCall('git diff --name-status --diff-filter=U').stdout.split('\n').length > 1
+
+sysCall('git merge --abort')
+
+console.log('cxv', hasUnmerged)
+
+process.exit(hasUnmerged ? 1 : 0)
