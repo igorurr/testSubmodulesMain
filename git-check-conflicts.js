@@ -8,9 +8,13 @@ const submodulesList = sysCall('git config --file .gitmodules --get-regexp path'
 
 const mergeResp = sysCall(`git merge ${brunchName} --no-commit --no-ff`)
 
+const revertMerge = () => sysCall('git merge --abort')
+
 if (mergeResp.status > 1) {
+  revertMerge()
   process.exit(1)
 } else if (mergeResp.status === 0) {
+  revertMerge()
   process.exit(0)
 }
 
@@ -22,6 +26,6 @@ const unmergedFiles = sysCall('git diff --name-status --diff-filter=U').stdout
 
 const hasUnmerged = unmergedFiles.length > 1
 
-sysCall('git merge --abort')
+revertMerge()
 
 process.exit(hasUnmerged ? 1 : 0)
