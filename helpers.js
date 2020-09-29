@@ -18,7 +18,7 @@ const sysCall = comand => {
 const sysCallOut = comand => {
   const [ cmd, ...comandArgs ] = splitargs(comand)
   
-  spawnSync(cmd, comandArgs, {
+  return spawnSync(cmd, comandArgs, {
     cwd: process.cwd(),
     env: process.env,
     stdio: 'inherit',
