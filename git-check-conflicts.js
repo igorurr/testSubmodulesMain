@@ -6,7 +6,10 @@ const submodulesList = sysCall('git config --file .gitmodules --get-regexp path'
   .split('\n')
   .map(row => row.split(' ')[1])
 
-sysCall(`git merge ${brunchName} --no-commit`)
+const mergeResp = sysCall(`git merge ${brunchName} --no-commit`)
+if(mergeResp.status !== 0) {
+  process.exit(1)
+}
 
 const unmergedFiles = sysCall('git diff --name-status --diff-filter=U').stdout
   .split('\n')
@@ -15,7 +18,5 @@ const unmergedFiles = sysCall('git diff --name-status --diff-filter=U').stdout
 const hasUnmerged = unmergedFiles.length > 1
 
 sysCall('git merge --abort')
-
-console.log('cxv', hasUnmerged)
 
 process.exit(hasUnmerged ? 1 : 0)
