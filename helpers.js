@@ -71,7 +71,7 @@ const checkChanges = (mainRepoOnly=false) => {
 }
 
 const checkConflicts = (brunchName) => {
-  sysCallOut(`git submodule foreach node "${process.cwd()}/git-check-conflicts.js" ${brunchName}`)
+  sysCallOut(`node "${process.cwd()}/git-check-conflicts.js" ${brunchName} && git submodule foreach node "${process.cwd()}/git-check-conflicts.js" ${brunchName}`)
 }
 
 module.exports = {

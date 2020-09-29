@@ -1,6 +1,7 @@
-const { checkConflicts, sysCall, getComandLineArgs, consoleLog, sysCallOut } = require('./helpers')
+const { sysCall, getComandLineArgs, getComandLineNamedArgs } = require('./helpers')
 
 const brunchName = getComandLineArgs()[0]
+const noSubmodules = getComandLineNamedArgs()['no-submodules']
 
 sysCall(`git merge ${brunchName} --no-commit`)
 
