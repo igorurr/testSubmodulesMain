@@ -1,4 +1,10 @@
-const { checkChanges, sysCallOut, getComandLineArgs, consoleLog } = require('./helpers');
+const { 
+  checkChanges, 
+  sysCallOut, 
+  getComandLineArgs, 
+  consoleLog, 
+  makeMainAndSubmodulesComand 
+} = require('./helpers');
 
 /*
     Скрипт не доработан
