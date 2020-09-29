@@ -6,7 +6,7 @@ const submodulesList = sysCall('git config --file .gitmodules --get-regexp path'
   .split('\n')
   .map(row => row.split(' ')[1])
 
-const mergeResp = sysCall(`git merge ${brunchName} --no-commit`)
+const mergeResp = sysCall(`git merge ${brunchName} --no-commit --no-ff`)
 
 if (mergeResp.status > 1) {
   process.exit(1)
