@@ -39,11 +39,12 @@ const getComandLineNamedArgs = () => Object.fromEntries(
 // см. https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
 const consoleLog = {
   error: msg => console.log('\x1b[31m%s\x1b[0m', msg),
+  warning: msg => console.log('\x1b[33m%s\x1b[0m', msg),
   info: msg => console.log('\x1b[36m%s\x1b[0m', msg),
 }
 
 // есть ли изменения в родительском репо и сабмодулях
-const checkChanges = (mainRepoOnly=false) => {
+const checkChanges = (mainRepoOnly=false, errorColorWarning=false) => {
   const gitStatusResponse = sysCall(
     `git status --porcelain ${mainRepoOnly ? '--ignore-submodules=all' : ''}`
   ).stdout
@@ -55,7 +56,7 @@ const checkChanges = (mainRepoOnly=false) => {
   const showNoComitchanges = () => sysCallOut('git status')
 
   if (wasChanges && !acceptChanges) {
-    consoleLog.error('Есть незакоммиченные изменения')
+    (errorColorWarning ? consoleLog.warning : consoleLog.error)('Есть незакоммиченные изменения')
     showNoComitchanges()
     return false
   }

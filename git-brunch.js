@@ -6,7 +6,7 @@ consoleLog.info(`Переключаемся на ${brunchName}`)
 
 sysCallOut(`git submodule foreach "git checkout -b ${brunchName}" && git checkout -b ${brunchName}`)
 
-if(!checkChanges(brunchName)) {
+if(!checkChanges(true, true)) {
   sysCallOut(`git add -A && git commit -m "${brunchName} switch submodule cursor"`)
 }
 
