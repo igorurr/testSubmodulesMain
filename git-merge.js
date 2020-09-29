@@ -10,7 +10,7 @@ process.exit(
       // если не отработал, значит в репо есть сабмодули, их можно просто добавить 
       // к комиту и закомитить мёрдж-коммит
       `node \`${process.cwd()}/git-check-conflicts.js\` ${brunchName} && ` +
-      `(git merge ${brunchName} || (git add -A && git commit))`
+      `(git merge ${brunchName} || (git add -A && git commit -m \`merge ${brunchName} into ${currentBranch}\`))`
     )
   ).status
 )
