@@ -46,24 +46,27 @@ const consoleLog = {
   info: msg => console.log('\x1b[36m%s\x1b[0m', msg),
 }
 
+// [brunchOrCommit, isBrunch]
+const getCurrentBranch = () => {
+  const gitLog = sysCall('git log -n 1').stdout.split('\n')[0]
+
+  const commit = gitLog.split(' ')[1]
+
+  const brunchRegex = gitLog.match(/->\s(.+?)(,\s|\))/)
+
+  return [brunchRegex ? brunchRegex[1] : commit, !!brunchRegex]
+}
+
 // есть ли изменения в репо, игнорируя его сабмодули
 const checkChanges = (errorColorWarning=false) => {
   const gitStatusResponse = sysCall('git status --porcelain --ignore-submodules=all').stdout
 
   const wasChanges = gitStatusResponse.split('\n').length > 1
 
-  const acceptChanges = getComandLineNamedArgs()['accept-changes']
-
-  const showNoComitchanges = () => sysCallOut('git status')
-
-  if (wasChanges && !acceptChanges) {
+  if (wasChanges) {
     (errorColorWarning ? consoleLog.warning : consoleLog.error)('Есть незакоммиченные изменения')
-    showNoComitchanges()
+    sysCallOut('git status')
     return false
-  }
-  else if (wasChanges && acceptChanges) {
-    consoleLog.info('Есть незакоммиченные изменения')
-    showNoComitchanges()
   }
   else {
     consoleLog.info('Незакоммиченные изменения отсутствуют')
@@ -84,6 +87,7 @@ module.exports = {
   getComandLineNamedArgs,
   makeMainAndSubmodulesComand,
   consoleLog,
+  getCurrentBranch,
   checkChanges,
   checkConflicts
 }

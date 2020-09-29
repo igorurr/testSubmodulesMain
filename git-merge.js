@@ -1,6 +1,8 @@
-const { sysCallOut, getComandLineArgs } = require('./helpers');
+const { sysCallOut, getComandLineArgs, getCurrentBranch } = require('./helpers');
 
 const brunchName = getComandLineArgs()[0]
+
+const currentBranch = getCurrentBranch()
 
 process.exit(
   sysCallOut(
