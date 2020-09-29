@@ -43,11 +43,9 @@ const consoleLog = {
   info: msg => console.log('\x1b[36m%s\x1b[0m', msg),
 }
 
-// есть ли изменения в родительском репо и сабмодулях
-const checkChanges = (mainRepoOnly=false, errorColorWarning=false) => {
-  const gitStatusResponse = sysCall(
-    `git status --porcelain ${mainRepoOnly ? '--ignore-submodules=all' : ''}`
-  ).stdout
+// есть ли изменения в репо, игнорируя его сабмодули
+const checkChanges = (errorColorWarning=false) => {
+  const gitStatusResponse = sysCall('git status --porcelain --ignore-submodules=all').stdout
 
   const wasChanges = gitStatusResponse.split('\n').length > 1
 
