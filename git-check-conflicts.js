@@ -7,11 +7,15 @@ const submodulesList = sysCall('git config --file .gitmodules --get-regexp path'
   .map(row => row.split(' ')[1])
 
 const mergeResp = sysCall(`git merge ${brunchName} --no-commit`)
-console.log(mergeResp)
-if(mergeResp.status !== 0) {
+
+if (mergeResp.status > 1) {
   process.exit(1)
+} else if (mergeResp.status === 0) {
+  process.exit(0)
 }
 
+// если есть сабмодули и мы имеем просто конфликт (статус 1), а конфликты только в сабмодулях
+// то мы считаем что у нас нету конфликтов
 const unmergedFiles = sysCall('git diff --name-status --diff-filter=U').stdout
   .split('\n')
   .filter(row => !submodulesList.some( sm => sm === row.trim()[1] ))
