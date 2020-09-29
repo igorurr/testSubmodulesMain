@@ -36,6 +36,9 @@ const getComandLineNamedArgs = () => Object.fromEntries(
     .map(([key, value]) => [key.slice(2), value || true])
 )
 
+const makeMainAndSubmodulesComand = (comand) => 
+  `git submodule foreach --recursive "${comand}" && ${comand}`
+
 // см. https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
 const consoleLog = {
   error: msg => console.log('\x1b[31m%s\x1b[0m', msg),
@@ -70,7 +73,8 @@ const checkChanges = (errorColorWarning=false) => {
 }
 
 const checkConflicts = (brunchName) => {
-  sysCallOut(`node "${process.cwd()}/git-check-conflicts.js" ${brunchName} && git submodule foreach node "${process.cwd()}/git-check-conflicts.js" ${brunchName}`)
+  sysCallOut(makeMainAndSubmodulesComand(`node \`${process.cwd()}/git-check-conflicts.js\` ${brunchName}`))
+  // sysCallOut(`node "${process.cwd()}/git-check-conflicts.js" ${brunchName} && git submodule foreach node "${process.cwd()}/git-check-conflicts.js" ${brunchName}`)
 }
 
 module.exports = {
@@ -78,6 +82,7 @@ module.exports = {
   sysCallOut,
   getComandLineArgs,
   getComandLineNamedArgs,
+  makeMainAndSubmodulesComand,
   consoleLog,
   checkChanges,
   checkConflicts
