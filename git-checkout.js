@@ -1,6 +1,7 @@
 const { 
   sysCall, 
   getComandLineArgs, 
+  getComandLineTail,
   consoleLog, 
   makeMainAndSubmodulesComand 
 } = require('./helpers');
