@@ -1,17 +1,15 @@
 const { 
   sysCall, 
   getComandLineArgs, 
-  getComandLineNamedArgs 
 } = require('./helpers')
 
 const brunchName = getComandLineArgs()[0]
-const comandIsPull = getComandLineNamedArgs().pull
 
 const submodulesList = sysCall('git config --file .gitmodules --get-regexp path').stdout
   .split('\n')
   .map(row => row.split(' ')[1])
 
-const mergeResp = sysCall(`git ${comandIsPull ? 'pull' : 'merge'} ${brunchName} --no-commit --no-ff`)
+const mergeResp = sysCall(`git merge ${brunchName} --no-commit --no-ff`)
 
 const revertMerge = () => sysCall('git merge --abort')
 
@@ -29,8 +27,8 @@ const unmergedFiles = sysCall('git diff --name-status --diff-filter=U').stdout
   .split('\n')
   .filter(row => !submodulesList.some( sm => sm === row.trim()[1] ))
 
-const hasUnmerged = unmergedFiles.length > 1
-
 revertMerge()
+
+const hasUnmerged = unmergedFiles.length > 1
 
 process.exit(hasUnmerged ? 1 : 0)
