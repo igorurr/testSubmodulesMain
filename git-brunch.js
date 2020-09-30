@@ -1,6 +1,6 @@
 const { 
   checkChanges, 
-  sysCallOut, 
+  sysCall, 
   getComandLineArgs, 
   consoleLog, 
   makeMainAndSubmodulesComand 
@@ -14,11 +14,12 @@ const {
 const brunchName = getComandLineArgs()[0]
 
 consoleLog.info(`Переключаемся на ${brunchName}`)
+return
 
-sysCallOut(makeMainAndSubmodulesComand(`git checkout -b ${brunchName}`))
+sysCall(makeMainAndSubmodulesComand(`git checkout -b ${brunchName}`), true)
 
 if(!checkChanges(true)) {
-  sysCallOut(`git add -A && git commit -m "${brunchName} switch submodule cursor"`)
+  sysCall(`git add -A && git commit -m "${brunchName} switch submodule cursor"`, true)
 }
 
 process.exit(0)

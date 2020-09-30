@@ -1,29 +1,28 @@
-const { spawnSync } = require('child_process')
-const splitargs = require('splitargs')
+const { spawnSync, execSync } = require('child_process')
 
 /*
     выполняет команду не выводя её результат в консоль
 */
-const sysCall = comand => {
-  const [ cmd, ...comandArgs ] = splitargs(comand)
-  
-  return spawnSync(cmd, comandArgs, {
-    cwd: process.cwd(),
-    env: process.env,
-    stdio: 'pipe',
-    encoding: 'utf-8'
-  });
-}
-
-const sysCallOut = comand => {
-  const [ cmd, ...comandArgs ] = splitargs(comand)
-  
-  return spawnSync(cmd, comandArgs, {
-    cwd: process.cwd(),
-    env: process.env,
-    stdio: 'inherit',
-    encoding: 'utf-8'
-  });
+const sysCall = (comand, isOut=false) => {
+  try {
+    return {
+      stdout: execSync(
+        comand, 
+        {
+          cwd: process.cwd(),
+          env: process.env,
+          stdio: isOut ? 'inherit' : 'pipe',
+          encoding: 'utf-8'
+        }
+      ),
+      status: 0
+    }
+  } catch(e) {
+    return {
+      stderr: e.stderr,
+      status: e.status
+    }
+  }
 }
 
 const getComandLineArgs = () => process.argv.slice(2)
@@ -37,7 +36,7 @@ const getComandLineNamedArgs = () => Object.fromEntries(
 )
 
 const makeMainAndSubmodulesComand = (comand) => 
-  `git submodule foreach --recursive "${comand}" && ${comand}`
+  `git submodule foreach --recursive \`${comand}\` && ${comand}`
 
 // см. https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
 const consoleLog = {
@@ -65,7 +64,7 @@ const checkChanges = (errorColorWarning=false) => {
 
   if (wasChanges) {
     (errorColorWarning ? consoleLog.warning : consoleLog.error)('Есть незакоммиченные изменения')
-    sysCallOut('git status')
+    sysCall('git status', true)
     return false
   }
   else {
@@ -76,13 +75,12 @@ const checkChanges = (errorColorWarning=false) => {
 }
 
 const checkConflicts = (brunchName) => {
-  sysCallOut(makeMainAndSubmodulesComand(`node \`${process.cwd()}/git-check-conflicts.js\` ${brunchName}`))
-  // sysCallOut(`node "${process.cwd()}/git-check-conflicts.js" ${brunchName} && git submodule foreach node "${process.cwd()}/git-check-conflicts.js" ${brunchName}`)
+  sysCall(makeMainAndSubmodulesComand(`node \`${process.cwd()}/git-check-conflicts.js\` ${brunchName}`), true)
+  // sysCall(`node "${process.cwd()}/git-check-conflicts.js" ${brunchName} && git submodule foreach node "${process.cwd()}/git-check-conflicts.js" ${brunchName}`, true)
 }
 
 module.exports = {
   sysCall,
-  sysCallOut,
   getComandLineArgs,
   getComandLineNamedArgs,
   makeMainAndSubmodulesComand,
