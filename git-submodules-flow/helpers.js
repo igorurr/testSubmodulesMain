@@ -45,7 +45,7 @@ const getComandLineTail = (start = 2) =>
 const makeMainAndSubmodulesComand = (comand) => {
   const ecranedComand = comand.replace(/"/g, '\\"')
 
-  return `git submodule foreach --recursive "${ecranedComand}" && echo "Main repo:" && ${comand}`
+  return `git submodule foreach --recursive "${ecranedComand}" && echo Main-repo: && ${comand}`
 }
 
 // см. https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
