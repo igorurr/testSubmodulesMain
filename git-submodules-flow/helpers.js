@@ -65,6 +65,8 @@ const getCurrentBranch = () => {
   return [brunchRegex ? brunchRegex[1] : commit, !!brunchRegex]
 }
 
+const gsfScript = script => `${__dirname}/${script}`
+
 module.exports = {
   sysCall,
   getComandLineArgs,
@@ -72,5 +74,6 @@ module.exports = {
   getComandLineTail,
   makeMainAndSubmodulesComand,
   consoleLog,
-  getCurrentBranch
+  getCurrentBranch,
+  gsfScript
 }

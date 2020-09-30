@@ -3,6 +3,7 @@ const {
   getComandLineArgs, 
   getComandLineTail,
   consoleLog,
+  gsfScript
 } = require('./helpers')
 
 const gsfCommand = getComandLineArgs()[0]
@@ -11,7 +12,7 @@ const gsfCommandTail = getComandLineTail(3)
 let status = 1
 
 const execGsfCommand = cmd => {
-  status = sysCall(`node "${__dirname}/${cmd}" ${gsfCommandTail}`, true).status
+  status = sysCall(`node "${gsfScript(cmd)}" ${gsfCommandTail}`, true).status
 }
 
 if(
