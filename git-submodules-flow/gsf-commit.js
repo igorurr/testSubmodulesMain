@@ -1,12 +1,13 @@
 const { 
   sysCall,
   getComandLineTail,
-  makeMainAndSubmodulesComand 
+  makeMainAndSubmodulesComand,
+  gsfScript 
 } = require('./helpers');
 
 process.exit(
   sysCall(
-    makeMainAndSubmodulesComand(`git commit ${getComandLineTail()}`),
+    makeMainAndSubmodulesComand(`${gsfScript('helper-scripts/git-commit.js')} ${getComandLineTail()}`),
     true
   ).status
 )
