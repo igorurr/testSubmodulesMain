@@ -1,11 +1,14 @@
 const { 
   sysCall,
-  makeMainAndSubmodulesComand 
+  makeMainAndSubmodulesComand,
+  getComandLineTail
 } = require('./helpers');
+
+const comandLineTail = getComandLineTail()
 
 process.exit(
   sysCall(
-    makeMainAndSubmodulesComand('git push'),
+    makeMainAndSubmodulesComand(`git push ${comandLineTail}`),
     true
   ).status
 )

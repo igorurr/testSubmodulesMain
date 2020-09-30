@@ -19,49 +19,49 @@ if(
   gsfCommand === 'a' || 
   gsfCommand === 'add'
 ) {
-  execGsfCommand('git-add.js')
+  execGsfCommand('gsf-add.js')
 }
 else if(
   gsfCommand === 'ch' || 
   gsfCommand === 'checkout'
 ) {
-  execGsfCommand('git-checkout.js')
+  execGsfCommand('gsf-checkout.js')
 }
 else if(
   gsfCommand === 'chp' || 
   gsfCommand === 'checkout-pull'
 ) {
-  execGsfCommand('git-checkout-pull.js')
+  execGsfCommand('gsf-checkout-pull.js')
 }
 else if(
   gsfCommand === 'c' || 
   gsfCommand === 'commit'
 ) {
-  execGsfCommand('git-commit.js')
+  execGsfCommand('gsf-commit.js')
 }
 else if(
   gsfCommand === 'm' || 
   gsfCommand === 'merge'
 ) {
-  execGsfCommand('git-merge.js')
+  execGsfCommand('gsf-merge.js')
 }
 else if(
   gsfCommand === 'p' || 
   gsfCommand === 'push'
 ) {
-  execGsfCommand('git-push.js')
+  execGsfCommand('gsf-push.js')
 } 
 else if(
   gsfCommand === 'r' || 
   gsfCommand === 'reset'
 ) {
-  execGsfCommand('git-reset.js')
+  execGsfCommand('gsf-reset.js')
 } 
 else if(
   gsfCommand === 's' || 
   gsfCommand === 'status'
 ) {
-  execGsfCommand('git-status.js')
+  execGsfCommand('gsf-status.js')
 } 
 else {
   consoleLog.error(`Command "${gsfCommand}" not found`)
