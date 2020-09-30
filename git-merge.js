@@ -9,11 +9,6 @@ const brunchName = getComandLineArgs()[0]
 
 const [currentBranch] = getCurrentBranch()
 
-console.log(makeMainAndSubmodulesComand(
-  `node "${process.cwd()}/git-check-conflicts.js" ${brunchName} && ` +
-  `(git merge ${brunchName} || (git add -A && git commit -m "merge ${brunchName} into ${currentBranch}"))`
-))
-
 process.exit(
   sysCall(
     makeMainAndSubmodulesComand(
