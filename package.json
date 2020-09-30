@@ -1,7 +1,7 @@
 {
   "name": "y",
   "scripts": {
-    "test": "y"
+    "git-a": "node ./git-add.js $1"
   },
   "dependencies": {
     "splitargs": "0.0.7"

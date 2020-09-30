@@ -35,12 +35,17 @@ const getComandLineNamedArgs = () => Object.fromEntries(
     .map(([key, value]) => [key.slice(2), value || true])
 )
 
-const getComandLineTail = (start = 2) => process.argv.slice(start).join(' ')
+const getComandLineTail = (start = 2) => 
+  process.argv
+    .slice(start)
+    // если параметр в скрипт пришёл в кавычках, возвращаем их на законное место
+    .map(arg => arg.match(' ') ? `"${arg}"` : arg)
+    .join(' ')
 
 const makeMainAndSubmodulesComand = (comand) => {
   const ecranedComand = comand.replace(/"/g, '\\"')
 
-  return `git submodule foreach --recursive "${ecranedComand}" && echo "Main repo:" && ${comand}`
+  return `git submodule foreach --recursive "${ecranedComand}" && echo Main-repo: && ${comand}`
 }
 
 // см. https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
@@ -60,28 +65,7 @@ const getCurrentBranch = () => {
   return [brunchRegex ? brunchRegex[1] : commit, !!brunchRegex]
 }
 
-// есть ли изменения в репо, игнорируя его сабмодули
-const checkChanges = (errorColorWarning=false) => {
-  const gitStatusResponse = sysCall('git status --porcelain --ignore-submodules=all').stdout
-
-  const wasChanges = gitStatusResponse.split('\n').length > 1
-
-  if (wasChanges) {
-    (errorColorWarning ? consoleLog.warning : consoleLog.error)('Есть незакоммиченные изменения')
-    sysCall('git status', true)
-    return false
-  }
-  else {
-    consoleLog.info('Незакоммиченные изменения отсутствуют')
-  }
-
-  return true
-}
-
-const checkConflicts = (brunchName) => {
-  sysCall(makeMainAndSubmodulesComand(`node \`${process.cwd()}/git-check-conflicts.js\` ${brunchName}`), true)
-  // sysCall(`node "${process.cwd()}/git-check-conflicts.js" ${brunchName} && git submodule foreach node "${process.cwd()}/git-check-conflicts.js" ${brunchName}`, true)
-}
+const gsfScript = script => `${__dirname}/${script}`
 
 module.exports = {
   sysCall,
@@ -91,6 +75,5 @@ module.exports = {
   makeMainAndSubmodulesComand,
   consoleLog,
   getCurrentBranch,
-  checkChanges,
-  checkConflicts
+  gsfScript
 }
