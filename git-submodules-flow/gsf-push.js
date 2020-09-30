@@ -8,7 +8,7 @@ const comandLineTail = getComandLineTail()
 
 process.exit(
   sysCall(
-    makeMainAndSubmodulesComand(`git push ${comandLineTail}`),
+    makeMainAndSubmodulesComand(`(git push ${comandLineTail} || echo "")`),
     true
   ).status
 )
