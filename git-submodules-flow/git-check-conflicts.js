@@ -8,6 +8,7 @@ const brunchName = getComandLineArgs()[0]
 const submodulesList = (sysCall('git config --file .gitmodules --get-regexp path').stdout || '')
   .split('\n')
   .map(row => row.split(' ')[1])
+  .filter(row => row)
 
 const mergeResp = sysCall(`git merge ${brunchName} --no-commit --no-ff`)
 
@@ -25,10 +26,12 @@ if (mergeResp.status > 1) {
 // то мы считаем что у нас нету конфликтов
 const unmergedFiles = sysCall('git diff --name-status --diff-filter=U').stdout
   .split('\n')
-  .filter(row => !submodulesList.some( sm => sm === row.trim()[1] ))
+  .filter(row => row && !submodulesList.some( sm => sm === row.trim().split(' ')[1] ))
 
 revertMerge()
 
-const hasUnmerged = unmergedFiles.length > 1
+const hasUnmerged = unmergedFiles.length > 0
+
+console.log('d', unmergedFiles, submodulesList)
 
 process.exit(hasUnmerged ? 1 : 0)
