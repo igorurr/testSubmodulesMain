@@ -3,16 +3,17 @@ const {
   getComandLineArgs, 
   getCurrentBranch, 
   getComandLineTail,
+  consoleLog,
   makeMainAndSubmodulesComand 
 } = require('./helpers');
 
-const brunchName = getComandLineArgs()[0]
+const branchName = getComandLineArgs()[0]
 
 const [currentBranch] = getCurrentBranch()
 
 const comandLineTail = getComandLineTail()
 
-consoleLog.info(`Merging ${brunchName} into ${currentBranch}`)
+consoleLog.info(`Merging ${branchName} into ${currentBranch}`)
 
 process.exit(
   sysCall(
@@ -44,9 +45,9 @@ process.exit(
       // к комиту и закомитить мёрдж-коммит
       // при добавлении сабмодуля у которого изменился только указатель на новый коммит
       // в staged мейн-репо добавляется указатель на текущий коммит в папке сабмодуля
-      `node "${process.cwd()}/git-check-conflicts.js" ${brunchName}`
-      // `node "${process.cwd()}/git-check-conflicts.js" ${brunchName} && ` +
-      // `(git merge ${brunchName} || (git add -A && git commit -m "merge ${brunchName} into ${currentBranch}"))`
+      `node "${process.cwd()}/git-check-conflicts.js" ${branchName}`
+      // `node "${process.cwd()}/git-check-conflicts.js" ${branchName} && ` +
+      // `(git merge ${branchName} || (git add -A && git commit -m "merge ${branchName} into ${currentBranch}"))`
     ),
     true
   ).status
