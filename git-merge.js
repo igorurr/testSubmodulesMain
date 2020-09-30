@@ -1,4 +1,9 @@
-const { sysCall, getComandLineArgs, getCurrentBranch } = require('./helpers');
+const { 
+  sysCall, 
+  getComandLineArgs, 
+  getCurrentBranch, 
+  makeMainAndSubmodulesComand 
+} = require('./helpers');
 
 const brunchName = getComandLineArgs()[0]
 
