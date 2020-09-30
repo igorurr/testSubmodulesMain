@@ -36,9 +36,9 @@ const getComandLineNamedArgs = () => Object.fromEntries(
 )
 
 const makeMainAndSubmodulesComand = (comand) => {
-  comand = comand.replace('"', '\\"')
+  const ecranedComand = comand.replace(/"/g, '\\"')
 
-  return `git submodule foreach --recursive "${comand}" && echo "Main repo:" && ${comand}`
+  return `git submodule foreach --recursive "${ecranedComand}" && echo "Main repo:" && ${comand}`
 }
 
 // см. https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
@@ -50,11 +50,10 @@ const consoleLog = {
 
 // [brunchOrCommit, isBrunch]
 const getCurrentBranch = () => {
+  const brunchRegex = sysCall('git status -s -b --porcelain').stdout.split('\n')[0].match(/\s(.+?)(\.{3}|$)/)
   const gitLog = sysCall('git log -n 1').stdout.split('\n')[0]
 
   const commit = gitLog.split(' ')[1]
-
-  const brunchRegex = gitLog.match(/->\s(.+?)(,\s|\))/)
 
   return [brunchRegex ? brunchRegex[1] : commit, !!brunchRegex]
 }

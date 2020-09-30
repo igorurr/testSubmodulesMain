@@ -5,7 +5,7 @@ const {
 
 const brunchName = getComandLineArgs()[0]
 
-const submodulesList = sysCall('git config --file .gitmodules --get-regexp path').stdout
+const submodulesList = (sysCall('git config --file .gitmodules --get-regexp path').stdout || '')
   .split('\n')
   .map(row => row.split(' ')[1])
 
