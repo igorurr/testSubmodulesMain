@@ -36,7 +36,7 @@ const getComandLineNamedArgs = () => Object.fromEntries(
 )
 
 const makeMainAndSubmodulesComand = (comand) => 
-  `git submodule foreach --recursive \`${comand}\` && ${comand}`
+  `git submodule foreach --recursive "${comand}" && echo "Main repo:" && ${comand}`
 
 // см. https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
 const consoleLog = {

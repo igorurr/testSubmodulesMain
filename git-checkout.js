@@ -1,9 +1,22 @@
-const { checkConflicts, getComandLineArgs } = require('./helpers');
+const { 
+  sysCall, 
+  getComandLineArgs, 
+  consoleLog, 
+  makeMainAndSubmodulesComand 
+} = require('./helpers');
 
-const brunchName = getComandLineArgs()[0]
+/*
+    Скрипт не доработан
+      отсутствует проверка на несуществование ветки
+*/
 
-if(checkConflicts(brunchName)) {
-  process.exit(1)
-}
+const branchName = getComandLineArgs()[0]
 
-process.exit(0)
+consoleLog.info(`Checkouting to branch ${branchName}`)
+
+process.exit(
+  sysCall(
+    makeMainAndSubmodulesComand(`git checkout ${branchName}`),
+    true
+  ).status
+)

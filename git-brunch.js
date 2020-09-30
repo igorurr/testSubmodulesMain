@@ -1,5 +1,4 @@
 const { 
-  checkChanges, 
   sysCall, 
   getComandLineArgs, 
   consoleLog, 
@@ -8,18 +7,16 @@ const {
 
 /*
     Скрипт не доработан
-      отсутствует рекурсивная проверка на наличие сабмодулей
+      отсутствует проверка на существование ветки
 */
 
-const brunchName = getComandLineArgs()[0]
+const branchName = getComandLineArgs()[0]
 
-consoleLog.info(`Переключаемся на ${brunchName}`)
-return
+consoleLog.info(`Making branch ${branchName}`)
 
-sysCall(makeMainAndSubmodulesComand(`git checkout -b ${brunchName}`), true)
-
-if(!checkChanges(true)) {
-  sysCall(`git add -A && git commit -m "${brunchName} switch submodule cursor"`, true)
-}
-
-process.exit(0)
+process.exit(
+  sysCall(
+    makeMainAndSubmodulesComand(`git checkout -b ${branchName}`),
+    true
+  ).status
+)
