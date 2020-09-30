@@ -1,4 +1,4 @@
-const { spawnSync, execSync } = require('child_process')
+const { execSync } = require('child_process')
 
 /*
     выполняет команду не выводя её результат в консоль
@@ -34,6 +34,8 @@ const getComandLineNamedArgs = () => Object.fromEntries(
     .map(arg => arg.split('='))
     .map(([key, value]) => [key.slice(2), value || true])
 )
+
+const getComandLineTail = (start = 2) => process.argv.slice(start).join(' ')
 
 const makeMainAndSubmodulesComand = (comand) => {
   const ecranedComand = comand.replace(/"/g, '\\"')
@@ -85,6 +87,7 @@ module.exports = {
   sysCall,
   getComandLineArgs,
   getComandLineNamedArgs,
+  getComandLineTail,
   makeMainAndSubmodulesComand,
   consoleLog,
   getCurrentBranch,
